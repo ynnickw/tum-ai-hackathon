@@ -195,14 +195,14 @@ export default function App() {
 
   return (
     <div className="flex flex-col h-full border-l border-gray-200">
-      <div className="p-2 border-b border-gray-200">
-        <h2 className="text-lg font-medium">Voice Agent</h2>
+      <div className="p-3 border-b border-gray-200 bg-primary/5">
+        <h2 className="text-lg font-medium text-primary">Voice Assistant</h2>
       </div>
       <div className="flex flex-col h-full">
-        <div className="flex-grow overflow-y-auto">
+        <div className="flex-grow overflow-y-auto p-3">
           <EventLog events={events} />
         </div>
-        <div className="h-32 p-2">
+        <div className="border-t border-gray-200 p-3">
           <SessionControls
             startSession={startSession}
             stopSession={stopSession}
@@ -212,7 +212,7 @@ export default function App() {
             isSessionActive={isSessionActive}
           />
         </div>
-        <div className="border-t border-gray-200 p-2 overflow-y-auto">
+        <div className="border-t border-gray-200 p-3 overflow-y-auto max-h-[200px]">
           <ToolPanel
             sendClientEvent={sendClientEvent}
             sendTextMessage={sendTextMessage}

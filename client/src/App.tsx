@@ -9,6 +9,9 @@ import Results from "@/pages/results";
 import HotelDetail from "@/pages/hotel-detail";
 import { AnimatePresence } from "framer-motion";
 import VoiceAgent from "@/components/voice_agent/Copied_App";
+import { useState } from "react";
+import { Mic } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 function Router() {
   return (
@@ -24,17 +27,31 @@ function Router() {
 }
 
 function App() {
+  const [showVoiceAgent, setShowVoiceAgent] = useState(false);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <div className="flex h-screen overflow-hidden">
-          <div className="flex-grow overflow-auto">
+          <div className={`flex-grow overflow-auto ${showVoiceAgent ? 'w-2/3' : 'w-full'}`}>
             <Router />
           </div>
-          <div className="w-[380px] shrink-0 h-screen">
-            <VoiceAgent />
-          </div>
+          
+          {showVoiceAgent && (
+            <div className="w-[380px] shrink-0 h-screen">
+              <VoiceAgent />
+            </div>
+          )}
+          
+          <Button
+            variant="default"
+            size="icon"
+            className="fixed bottom-6 right-6 z-50 rounded-full shadow-lg bg-primary hover:bg-primary/90 text-white"
+            onClick={() => setShowVoiceAgent(!showVoiceAgent)}
+          >
+            <Mic className="h-5 w-5" />
+          </Button>
         </div>
       </TooltipProvider>
     </QueryClientProvider>
