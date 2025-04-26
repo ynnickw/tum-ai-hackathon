@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import EventLog from "./EventLog";
 import SessionControls from "./SessionControls";
 import ToolPanel from "./ToolPanel";
+import PropTypes from 'prop-types';
 
 // Speech animation component
 function SpeechAnimation({ isActive, isSpeaking }) {
@@ -35,7 +36,11 @@ function SpeechAnimation({ isActive, isSpeaking }) {
   );
 }
 
-export default function App() {
+App.propTypes = {
+  onHotelsFetched: PropTypes.func.isRequired
+};
+
+export default function App({ onHotelsFetched }) {
   const [isSessionActive, setIsSessionActive] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [events, setEvents] = useState([]);
@@ -286,11 +291,11 @@ export default function App() {
         )}
       </div>
       <ToolPanel
-            sendClientEvent={sendClientEvent}
-            sendTextMessage={sendTextMessage}
-            events={events}
-            isSessionActive={isSessionActive}
-          />
+        isSessionActive={isSessionActive}
+        sendClientEvent={sendClientEvent}
+        events={events}
+        onHotelsFetched={onHotelsFetched}
+      />
     </div>
   );
 }

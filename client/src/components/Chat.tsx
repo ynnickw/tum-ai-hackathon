@@ -9,7 +9,7 @@ import { Hotel } from '@/lib/types';
 interface ChatProps {
   onHotelsFetched: (hotels: Hotel[]) => void;
 }
-function mapHotelsData(rawHotels: Record<string, any>): Hotel[] {
+export function mapHotelsData(rawHotels: Record<string, any>): Hotel[] {
   return Object.entries(rawHotels).map(([name, raw]) => {
     const amenityKeys = Object.keys(raw).filter(key => raw[key] === 1);
     const amenities = amenityKeys.map(key => key.replace(/_/g, ' '));

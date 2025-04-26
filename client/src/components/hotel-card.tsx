@@ -8,8 +8,8 @@ interface HotelCardProps {
 
 export const HotelCard = ({ hotel, onClick }: HotelCardProps) => {
   const getMatchColor = (percentage: number) => {
-    if (percentage >= 80) return 'bg-green-500';
-    if (percentage >= 60) return 'bg-yellow-500';
+    if (percentage >= 61) return 'bg-green-500';
+    if (percentage >= 31) return 'bg-yellow-500';
     return 'bg-red-500';
   };
 
@@ -24,12 +24,8 @@ export const HotelCard = ({ hotel, onClick }: HotelCardProps) => {
     >
       <div className="flex">
         {/* Image Section */}
-        <div className="relative w-48 h-48 flex-shrink-0">
-          <img
-            src={hotel.images.main}
-            alt={hotel.name}
-            className="w-full h-full object-cover"
-          />
+        <div className="relative w-48 h-48 flex-shrink-0 bg-neutral-100 flex items-center justify-center">
+          <i className="fas fa-building text-6xl text-neutral-400"></i>
           <div className="absolute top-2 right-2 bg-white rounded-full px-2 py-1 flex items-center text-sm font-medium">
             <i className="fas fa-star text-yellow-400 mr-1"></i>
             <span>{hotel.rating.toFixed(1)}</span>

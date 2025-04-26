@@ -91,7 +91,7 @@ export default function Results() {
             <Chat onHotelsFetched={handleHotelsFetched} />
           ) : (
            
-              <VoiceAgent />
+              <VoiceAgent onHotelsFetched={handleHotelsFetched} />
             
           )}
           </div>

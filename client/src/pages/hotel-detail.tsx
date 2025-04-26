@@ -135,12 +135,12 @@ export default function HotelDetail() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <div className="col-span-2 row-span-2 rounded-lg overflow-hidden">
-                <img src={hotel.images.main} alt={`${hotel.name} Main Image`} className="w-full h-full object-cover" />
+              <div className="col-span-2 row-span-2 rounded-lg overflow-hidden bg-neutral-100 flex items-center justify-center">
+                <i className="fas fa-building text-6xl text-neutral-400"></i>
               </div>
-              {hotel.images.gallery.map((image, index) => (
-                <div key={index} className="rounded-lg overflow-hidden">
-                  <img src={image} alt={`${hotel.name} Gallery ${index + 1}`} className="w-full h-full object-cover" />
+              {[...Array(4)].map((_, index) => (
+                <div key={index} className="rounded-lg overflow-hidden bg-neutral-100 flex items-center justify-center">
+                  <i className="fas fa-building text-4xl text-neutral-400"></i>
                 </div>
               ))}
             </motion.div>

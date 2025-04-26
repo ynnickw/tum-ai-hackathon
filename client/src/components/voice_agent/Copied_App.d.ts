@@ -1,4 +1,7 @@
 declare module '@/components/voice_agent/Copied_App' {
-  const CopiedApp: React.FC;
+  interface VoiceAgentProps {
+    onHotelsFetched: (hotels: any[]) => void;
+  }
+  const CopiedApp: React.FC<VoiceAgentProps>;
   export default CopiedApp;
 } 
