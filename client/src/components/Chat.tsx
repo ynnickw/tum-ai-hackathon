@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -50,7 +50,7 @@ function mapHotelsData(rawHotels: Record<string, any>): Hotel[] {
 
 
 export function Chat({ onHotelsFetched }: ChatProps) {
-  // Chat state
+  // Initialize state with default values
   const [messages, setMessages] = useState<{sender: 'user' | 'ai'; content: string | React.ReactNode}[]>([
     {
       sender: 'ai',
@@ -65,6 +65,73 @@ export function Chat({ onHotelsFetched }: ChatProps) {
   });
   const [inputValue, setInputValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // Load saved state from sessionStorage on component mount
+  useEffect(() => {
+    try {
+      // Load messages
+      const savedMessages = sessionStorage.getItem('chatMessages');
+      if (savedMessages) {
+        setMessages(JSON.parse(savedMessages));
+      }
+
+      // Load step
+      const savedStep = sessionStorage.getItem('chatStep');
+      if (savedStep) {
+        setStep(savedStep as 'destination' | 'dates' | 'requirements');
+      }
+
+      // Load destination
+      const savedDestination = sessionStorage.getItem('chatDestination');
+      if (savedDestination) {
+        setDestination(savedDestination);
+      }
+
+      // Load dates
+      const savedDates = sessionStorage.getItem('chatDates');
+      if (savedDates) {
+        const parsedDates = JSON.parse(savedDates);
+        // Convert string dates back to Date objects
+        setDates({
+          from: parsedDates.from ? new Date(parsedDates.from) : undefined,
+          to: parsedDates.to ? new Date(parsedDates.to) : undefined
+        });
+      }
+
+      // Load hotels for display if they exist - only on initial mount
+      const storedHotels = sessionStorage.getItem('searchResults');
+      if (storedHotels) {
+        const parsedHotels = JSON.parse(storedHotels);
+        if (Array.isArray(parsedHotels) && parsedHotels.length > 0) {
+          onHotelsFetched(parsedHotels);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading chat state:', error);
+    }
+  }, []); // Remove onHotelsFetched from dependencies
+
+  // Save chat state to sessionStorage whenever it changes
+  useEffect(() => {
+    // Stringify content before saving if it's an object
+    const serializableMessages = messages.map(msg => ({
+      sender: msg.sender,
+      content: typeof msg.content === 'string' ? msg.content : 'Interactive Content'
+    }));
+    
+    sessionStorage.setItem('chatMessages', JSON.stringify(serializableMessages));
+    sessionStorage.setItem('chatStep', step);
+    if (destination) {
+      sessionStorage.setItem('chatDestination', destination);
+    }
+    
+    // Convert dates to strings for storage
+    const serializableDates = {
+      from: dates.from?.toISOString(),
+      to: dates.to?.toISOString()
+    };
+    sessionStorage.setItem('chatDates', JSON.stringify(serializableDates));
+  }, [messages, step, destination, dates]);
 
   const fetchHotels = async () => {
     setIsLoading(true);
@@ -92,9 +159,13 @@ export function Chat({ onHotelsFetched }: ChatProps) {
   
       const data = await response.json();
       console.log('Received data from API:', data);
-      let a = mapHotelsData(data);
-      console.log('Mapped hotel data:', a);
-      onHotelsFetched(a || []);
+      let mappedHotels = mapHotelsData(data);
+      console.log('Mapped hotel data:', mappedHotels);
+      
+      // Store the mapped hotels in sessionStorage
+      sessionStorage.setItem('searchResults', JSON.stringify(mappedHotels));
+      
+      onHotelsFetched(mappedHotels || []);
   
       setMessages(prev => [...prev, {
         sender: 'ai',

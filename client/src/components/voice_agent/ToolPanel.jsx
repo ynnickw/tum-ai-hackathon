@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const functionDescription = `
-Call this function when a user asks for a color palette.
+Call this function when a user asks to find a hotel.
 `;
 
 const sessionUpdate = {
@@ -32,6 +32,22 @@ const sessionUpdate = {
           required: ["theme", "colors"],
         },
       },
+      {
+        type: "function",
+        name: "console_print",
+        description: "Print a message to the console when the user asks to print something.",
+        parameters: {
+          type: "object",
+          strict: true,
+          properties: {
+            message: {
+              type: "string",
+              description: "The message to print to the console",
+            }
+          },
+          required: ["message"]
+        }
+      }
     ],
     tool_choice: "auto",
   },
@@ -85,26 +101,37 @@ export default function ToolPanel({
       mostRecentEvent.type === "response.done" &&
       mostRecentEvent.response.output
     ) {
+    
       mostRecentEvent.response.output.forEach((output) => {
-        if (
-          output.type === "function_call" &&
-          output.name === "display_color_palette"
-        ) {
-          setFunctionCallOutput(output);
-          setTimeout(() => {
-            sendClientEvent({
-              type: "response.create",
-              response: {
-                instructions: `
-                ask for feedback about the color palette - don't repeat 
-                the colors, just ask if they like the colors.
-              `,
-              },
-            });
-          }, 500);
+        if (output.type === "function_call") {
+          if (output.name === "display_color_palette") {
+            setFunctionCallOutput(output);
+            setTimeout(() => {
+              sendClientEvent({
+                type: "response.create",
+                response: {
+                  instructions: `
+                  ask for feedback about the color palette - don't repeat 
+                  the colors, just ask if they like the colors.
+                `,
+                },
+              });
+            }, 500);
+          } else if (output.name === "console_print") {
+            const { message } = JSON.parse(output.arguments);
+            console.log("Voice Agent says:", message);
+            setTimeout(() => {
+              sendClientEvent({
+                type: "response.create",
+                response: {
+                  instructions: "Ask if they want to print something else.",
+                },
+              });
+            }, 500);
+          }
         }
       });
-    }
+    } 
   }, [events]);
 
   useEffect(() => {
@@ -115,19 +142,8 @@ export default function ToolPanel({
   }, [isSessionActive]);
 
   return (
-    <section className="h-full w-full flex flex-col gap-4">
-      <div className="h-full bg-gray-50 rounded-md p-4">
-        <h2 className="text-lg font-bold">Color Palette Tool</h2>
-        {isSessionActive ? (
-          functionCallOutput ? (
-            <FunctionCallOutput functionCallOutput={functionCallOutput} />
-          ) : (
-            <p>Ask for advice on a color palette...</p>
-          )
-        ) : (
-          <p>Start the session to use this tool...</p>
-        )}
-      </div>
-    </section>
+   <div>
+   
+   </div>
   );
 }

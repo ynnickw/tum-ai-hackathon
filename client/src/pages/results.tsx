@@ -25,6 +25,19 @@ export default function Results() {
       setSearchQuery(query);
       setPrevSearchQuery(query);
     }
+    
+    // Load hotels from sessionStorage if available
+    const storedHotels = sessionStorage.getItem('searchResults');
+    if (storedHotels) {
+      try {
+        const parsedHotels = JSON.parse(storedHotels);
+        if (Array.isArray(parsedHotels) && parsedHotels.length > 0) {
+          setHotels(parsedHotels);
+        }
+      } catch (error) {
+        console.error('Error parsing stored hotels:', error);
+      }
+    }
   }, []);
 
   const handleSelectHotel = (hotel: Hotel) => {

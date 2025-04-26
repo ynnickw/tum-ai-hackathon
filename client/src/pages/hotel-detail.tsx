@@ -1,39 +1,82 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useRoute } from 'wouter';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/header';
-import { hotelData } from '@/lib/hotel-data';
 import { Hotel } from '@/lib/types';
 
 export default function HotelDetail() {
   const [, navigate] = useLocation();
   const [, params] = useRoute('/hotel/:id');
   const [hotel, setHotel] = useState<Hotel | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+
+  // Use useCallback for navigation to prevent it from changing on every render
+  const navigateToResults = useCallback(() => {
+    navigate('/results');
+  }, [navigate]);
 
   useEffect(() => {
-    if (params && params.id) {
-      const id = parseInt(params.id);
-      const foundHotel = hotelData.find(h => h.id === id);
-      if (foundHotel) {
-        setHotel(foundHotel);
-      } else {
-        // If hotel not found, redirect to results
-        navigate('/results');
+    const loadHotel = async () => {
+      if (!params?.id) {
+        setIsLoading(false);
+        setShouldRedirect(true);
+        return;
       }
+
+      const id = parseInt(params.id);
+      const storedHotels = sessionStorage.getItem('searchResults');
+      
+      if (!storedHotels) {
+        setIsLoading(false);
+        setShouldRedirect(true);
+        return;
+      }
+
+      try {
+        const hotels = JSON.parse(storedHotels);
+        const foundHotel = hotels.find((h: Hotel) => h.id === id);
+
+        if (!foundHotel) {
+          setIsLoading(false);
+          setShouldRedirect(true);
+          return;
+        }
+
+        setHotel(foundHotel);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error parsing hotel data:", error);
+        setIsLoading(false);
+        setShouldRedirect(true);
+      }
+    };
+
+    loadHotel();
+  }, [params?.id]); // Only depend on the ID parameter
+
+  // Handle redirect in a separate effect
+  useEffect(() => {
+    if (shouldRedirect) {
+      navigateToResults();
     }
-  }, [params, navigate]);
+  }, [shouldRedirect, navigateToResults]);
 
   const handleBackToResults = () => {
     navigate('/results');
   };
 
-  if (!hotel) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
+  }
+
+  if (!hotel) {
+    return null; // Will be redirected by useEffect
   }
 
   return (

@@ -6,6 +6,19 @@ import { Header } from '@/components/header';
 export default function Home() {
   const [, navigate] = useLocation();
 
+  const handleStartSearch = () => {
+    // Clear all previous search-related session storage items
+    sessionStorage.removeItem('searchQuery');
+    sessionStorage.removeItem('searchResults');
+    sessionStorage.removeItem('chatMessages');
+    sessionStorage.removeItem('chatStep');
+    sessionStorage.removeItem('chatDestination');
+    sessionStorage.removeItem('chatDates');
+    
+    // Navigate to results page
+    navigate('/results');
+  }
+
   return (
     <motion.div
       className="flex flex-col h-screen"
@@ -39,7 +52,7 @@ export default function Home() {
             className="w-full"
           >
             <button
-              onClick={() => navigate('/results')}
+              onClick={handleStartSearch}
               className="w-full max-w-lg mx-auto flex items-center justify-center bg-primary hover:bg-primary/90 text-white py-5 px-8 rounded-xl shadow-lg transition-all duration-300 font-medium text-lg"
             >
               <i className="fas fa-search mr-3"></i>

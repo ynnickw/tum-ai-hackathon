@@ -63,6 +63,7 @@ export default function App() {
   }, [isSessionActive]);
 
   async function startSession() {
+    console.log('Starting session');
     try {
       // Get a session token for OpenAI Realtime API
       const tokenResponse = await fetch("/token");
@@ -284,6 +285,12 @@ export default function App() {
           </Button>
         )}
       </div>
+      <ToolPanel
+            sendClientEvent={sendClientEvent}
+            sendTextMessage={sendTextMessage}
+            events={events}
+            isSessionActive={isSessionActive}
+          />
     </div>
   );
 }
