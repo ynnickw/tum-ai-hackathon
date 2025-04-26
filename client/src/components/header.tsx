@@ -5,6 +5,7 @@ export const Header = () => {
   const [location, navigate] = useLocation();
 
   const handleNewSearch = () => {
+    sessionStorage.removeItem("searchQuery")
     navigate('/');
   };
 

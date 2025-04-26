@@ -43,6 +43,44 @@ export default function Results() {
     }
   }, []);
 
+  const fetchHotels = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/search-hotels', { // Adjust endpoint if needed
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          prompt: inputValue,
+          location: destination
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+  
+      setMessages(prev => [...prev, {
+        sender: 'ai',
+        content: data.message || "I've found some great hotels that match your requirements!"
+      }]);
+  
+      handleNewSearch(searchQuery);
+      setInputValue('');
+    } catch (error) {
+      console.error('Error fetching hotels:', error);
+      setMessages(prev => [...prev, {
+        sender: 'ai',
+        content: "Sorry, something went wrong. Please try again."
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };  
+
   const handleSelectHotel = (hotel: Hotel) => {
     // Navigate to hotel detail view with the selected hotel ID
     navigate(`/hotel/${hotel.id}`);
@@ -50,11 +88,9 @@ export default function Results() {
 
   const handleNewSearch = (query: string) => {
     // Only update if the query is different
-    if (query !== prevSearchQuery) {
-      sessionStorage.setItem('searchQuery', query);
-      setSearchQuery(query);
-      setPrevSearchQuery(query);
-    }
+    sessionStorage.setItem('searchQuery', query);
+    setSearchQuery(query);
+    setPrevSearchQuery(query);
   };
 
   const handleDestinationSelect = (selected: string) => {
@@ -93,7 +129,7 @@ export default function Results() {
     setIsLoading(true);
 
     // Prepare the full search query
-    const fullQuery = `${destination}, ${format(dates.from!, 'PPP')} - ${format(dates.to!, 'PPP')}, ${inputValue}`;
+    const fullQuery = `${destination}, ${format(dates.from!, 'PPP')} - ${format(dates.to!, 'PPP')}`;
 
     // Simulate search processing
     setTimeout(() => {
@@ -303,8 +339,7 @@ export default function Results() {
                 {/* Search Summary */}
                 <div className="mt-2">
                   <p className="text-sm text-neutral-600">
-                    <span className="font-medium">Your search:</span>
-                    <span className="mr-2">{searchQuery}</span>
+                    <span className="font-medium">Your search results for {searchQuery}</span>
                   </p>
                 </div>
               </div>
