@@ -93,7 +93,7 @@ export default function App() {
 
   async function sendPCMToBackend(pcmData) {
     try {
-      await fetch('your-backend-endpoint', {
+      await fetch('/api/audio-pcm', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/octet-stream',
