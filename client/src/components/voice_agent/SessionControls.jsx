@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { CloudLightning, CloudOff, MessageSquare } from "react-feather";
+import { CloudLightning, CloudOff, MessageSquare } from "lucide-react";
 import Button from "./Button";
+import { Input } from "@/components/ui/input";
 
 function SessionStopped({ startSession }) {
   const [isActivating, setIsActivating] = useState(false);
@@ -16,8 +17,8 @@ function SessionStopped({ startSession }) {
     <div className="flex items-center justify-center w-full h-full">
       <Button
         onClick={handleStartSession}
-        className={isActivating ? "bg-gray-600" : "bg-red-600"}
-        icon={<CloudLightning height={16} />}
+        className={isActivating ? "bg-neutral-600" : "bg-primary hover:bg-primary/90"}
+        icon={<CloudLightning className="h-5 w-5" />}
       >
         {isActivating ? "starting session..." : "start session"}
       </Button>
@@ -35,7 +36,7 @@ function SessionActive({ stopSession, sendTextMessage }) {
 
   return (
     <div className="flex items-center justify-center w-full h-full gap-4">
-      <input
+      <Input
         onKeyDown={(e) => {
           if (e.key === "Enter" && message.trim()) {
             handleSendClientEvent();
@@ -43,7 +44,7 @@ function SessionActive({ stopSession, sendTextMessage }) {
         }}
         type="text"
         placeholder="send a text message..."
-        className="border border-gray-200 rounded-full p-4 flex-1"
+        className="flex-1"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
@@ -53,12 +54,16 @@ function SessionActive({ stopSession, sendTextMessage }) {
             handleSendClientEvent();
           }
         }}
-        icon={<MessageSquare height={16} />}
-        className="bg-blue-400"
+        icon={<MessageSquare className="h-5 w-5" />}
+        className="bg-primary hover:bg-primary/90"
       >
-        send text
+        send
       </Button>
-      <Button onClick={stopSession} icon={<CloudOff height={16} />}>
+      <Button 
+        onClick={stopSession} 
+        icon={<CloudOff className="h-5 w-5" />}
+        className="bg-destructive hover:bg-destructive/90"
+      >
         disconnect
       </Button>
     </div>
@@ -74,7 +79,7 @@ export default function SessionControls({
   isSessionActive,
 }) {
   return (
-    <div className="flex gap-4 border-t-2 border-gray-200 h-full rounded-md">
+    <div className="flex gap-4 border-t border-neutral-200 h-full rounded-md">
       {isSessionActive ? (
         <SessionActive
           stopSession={stopSession}

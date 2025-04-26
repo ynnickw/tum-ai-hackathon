@@ -79,10 +79,24 @@ export default {
             height: "0",
           },
         },
+        "pulse-wave": {
+          "0%": { transform: "scaleY(0.35)" },
+          "10%": { transform: "scaleY(0.4)" },
+          "20%": { transform: "scaleY(0.45)" },
+          "30%": { transform: "scaleY(0.5)" },
+          "40%": { transform: "scaleY(0.55)" },
+          "50%": { transform: "scaleY(0.6)" },
+          "60%": { transform: "scaleY(0.55)" },
+          "70%": { transform: "scaleY(0.5)" },
+          "80%": { transform: "scaleY(0.45)" },
+          "90%": { transform: "scaleY(0.4)" },
+          "100%": { transform: "scaleY(0.35)" }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "pulse-wave": "pulse-wave 2s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite",
       },
     },
   },
