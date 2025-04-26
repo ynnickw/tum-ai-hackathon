@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Header } from '@/components/header';
 import { ListView } from '@/components/list-view';
 import { MapView } from '@/components/map-view';
-import { hotelData } from '@/lib/hotel-data';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Calendar } from '@/components/ui/calendar';
@@ -17,6 +16,7 @@ export default function Results() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [prevSearchQuery, setPrevSearchQuery] = useState<string>('');
+  const [hotels, setHotels] = useState<Hotel[]>([]);
 
   // Chat state
   const [messages, setMessages] = useState<{sender: 'user' | 'ai'; content: string | React.ReactNode}[]>([
@@ -46,22 +46,27 @@ export default function Results() {
   const fetchHotels = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/search-hotels', { // Adjust endpoint if needed
-        method: 'POST',
+      const response = await fetch(`http://localhost:8000/hotels?query=${encodeURIComponent(inputValue)}&city=${encodeURIComponent(destination || '')}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          prompt: inputValue,
-          location: destination
-        })
+        }
       });
   
       if (!response.ok) {
+        const errorData = await response.json();
+        if (response.status === 400 && errorData.detail === "Invalid request.") {
+          setMessages(prev => [...prev, {
+            sender: 'ai',
+            content: "I'm sorry, but your request doesn't seem to be suitable for hotel requirements. Please try to be more specific about what you're looking for in a hotel (e.g., 'I want a hotel with a pool and breakfast included')."
+          }]);
+          return;
+        }
         throw new Error('Network response was not ok');
       }
   
       const data = await response.json();
+      setHotels(data.hotels || []);
   
       setMessages(prev => [...prev, {
         sender: 'ai',
@@ -131,20 +136,7 @@ export default function Results() {
     // Prepare the full search query
     const fullQuery = `${destination}, ${format(dates.from!, 'PPP')} - ${format(dates.to!, 'PPP')}`;
 
-    // Simulate search processing
-    setTimeout(() => {
-      setIsLoading(false);
-      setMessages(prev => [...prev, {
-        sender: 'ai',
-        content: "I've found some great hotels that match your requirements!"
-      }]);
-
-      // Update the search query for displaying in the results
-      handleNewSearch(fullQuery);
-
-      // Reset the input
-      setInputValue('');
-    }, 1500);
+    fetchHotels()
   };
 
   const renderDestinationOptions = () => (
@@ -158,12 +150,12 @@ export default function Results() {
         <span>Mallorca</span>
       </Button>
       <Button
-        onClick={() => handleDestinationSelect('Copenhagen')}
+        onClick={() => handleDestinationSelect('Kopenhagen')}
         variant="outline"
         className="flex flex-col items-center p-3 h-auto"
       >
         <i className="fas fa-landmark text-2xl mb-2 text-indigo-500"></i>
-        <span>Copenhagen</span>
+        <span>Kopenhagen</span>
       </Button>
       <Button
         onClick={() => handleDestinationSelect('New York')}
@@ -209,163 +201,151 @@ export default function Results() {
       <Header />
 
       <main className="flex flex-col h-[calc(100vh-64px)]">
-        {/* Chat Interface */}
-        <motion.div
-          className="h-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          style={{ display: searchQuery ? 'none' : 'flex' }}
-        >
-          <div className="w-full max-w-3xl mx-auto h-full flex flex-col p-4">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-neutral-800 mb-2">Plan Your Perfect Stay</h2>
-              <p className="text-neutral-600">Let's find the ideal hotel for your trip</p>
-            </div>
+        {/* Split View Container */}
+        <div className="flex h-full">
+          {/* Chat Interface - 40% width */}
+          <motion.div
+            className="w-[40%] border-r"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="h-full flex flex-col p-4">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-neutral-800 mb-2">Plan Your Perfect Stay</h2>
+                <p className="text-neutral-600">Let's find the ideal hotel for your trip</p>
+              </div>
 
-            {/* Chat messages */}
-            <div className="flex-grow overflow-y-auto p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl mb-4">
-              <div className="space-y-4">
-                {messages.map((message, index) => (
-                  <div
-                    key={index}
-                    className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
+              {/* Chat messages */}
+              <div className="flex-grow overflow-y-auto p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl mb-4">
+                <div className="space-y-4">
+                  {messages.map((message, index) => (
                     <div
-                      className={`max-w-[80%] rounded-xl px-5 py-3 ${
-                        message.sender === 'user'
-                          ? 'bg-primary text-white shadow-md'
-                          : 'bg-white text-gray-800 shadow-sm'
-                      }`}
+                      key={index}
+                      className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
-                      {message.sender === 'ai' && step === 'destination' && index === 0 ? (
-                        <div>
-                          <p>Where would you like to go?</p>
-                          {renderDestinationOptions()}
-                        </div>
-                      ) : message.sender === 'ai' && step === 'dates' && index === 2 ? (
-                        <div>
-                          <p>When would you like to travel? Please select your dates:</p>
-                          {renderDatePicker()}
-                        </div>
-                      ) : (
-                        <div>{message.content}</div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-
-                {isLoading && (
-                  <div className="flex justify-start">
-                    <div className="bg-white rounded-xl px-5 py-3 shadow-sm">
-                      <div className="flex space-x-1">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                      <div
+                        className={`max-w-[80%] rounded-xl px-5 py-3 ${
+                          message.sender === 'user'
+                            ? 'bg-primary text-white shadow-md'
+                            : 'bg-white text-gray-800 shadow-sm'
+                        }`}
+                      >
+                        {message.sender === 'ai' && step === 'destination' && index === 0 ? (
+                          <div>
+                            <p>Where would you like to go?</p>
+                            {renderDestinationOptions()}
+                          </div>
+                        ) : message.sender === 'ai' && step === 'dates' && index === 2 ? (
+                          <div>
+                            <p>When would you like to travel? Please select your dates:</p>
+                            {renderDatePicker()}
+                          </div>
+                        ) : (
+                          <div>{message.content}</div>
+                        )}
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            </div>
+                  ))}
 
-            {/* Chat input - only shown in requirements step */}
-            {step === 'requirements' && (
-              <div className="p-3 bg-white rounded-xl shadow-sm border mt-auto">
-                <form onSubmit={handleRequirementsSubmit} className="flex items-center">
-                  <Input
-                    type="text"
-                    placeholder="Enter your hotel requirements..."
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    className="flex-grow"
-                  />
-                  <Button type="submit" className="ml-2" disabled={isLoading}>
-                    <i className="fas fa-paper-plane mr-2"></i>
-                    Send
-                  </Button>
-                </form>
+                  {isLoading && (
+                    <div className="flex justify-start">
+                      <div className="bg-white rounded-xl px-5 py-3 shadow-sm">
+                        <div className="flex space-x-1">
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
-          </div>
-        </motion.div>
 
-        {/* Results Interface */}
-        <motion.div
-          className="h-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          style={{ display: searchQuery ? 'block' : 'none' }}
-        >
-          <div className="h-full flex flex-col">
-            <div className="border-b">
-              <div className="max-w-7xl mx-auto px-4 py-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <Button
-                      variant="ghost"
-                      className="mr-3 text-neutral-600"
-                      onClick={() => {
-                        setSearchQuery('');
-                        // Don't reset the step or messages when going back
-                      }}
-                    >
-                      <i className="fas fa-arrow-left mr-2"></i>
-                      Back to chat
+              {/* Chat input - only shown in requirements step */}
+              {step === 'requirements' && (
+                <div className="p-3 bg-white rounded-xl shadow-sm border mt-auto">
+                  <form onSubmit={handleRequirementsSubmit} className="flex items-center">
+                    <Input
+                      type="text"
+                      placeholder="Enter your hotel requirements..."
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      className="flex-grow"
+                    />
+                    <Button type="submit" className="ml-2" disabled={isLoading}>
+                      <i className="fas fa-paper-plane mr-2"></i>
+                      Send
                     </Button>
+                  </form>
+                </div>
+              )}
+            </div>
+          </motion.div>
+
+          {/* Results Interface - 60% width */}
+          <motion.div
+            className="w-[60%]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="h-full flex flex-col">
+              <div className="border-b">
+                <div className="px-4 py-3">
+                  <div className="flex items-center justify-between">
                     <div className="text-xl font-semibold text-primary">Search Results</div>
+
+                    {/* View Toggle */}
+                    <div className="bg-neutral-100 rounded-lg p-1 flex">
+                      <Button
+                        variant={viewMode === 'list' ? 'default' : 'ghost'}
+                        className={`px-3 py-1 rounded-md ${viewMode === 'list' ? 'bg-white shadow text-neutral-800' : 'text-neutral-600'}`}
+                        onClick={() => setViewMode('list')}
+                      >
+                        <i className="fas fa-list mr-1"></i> List
+                      </Button>
+                      <Button
+                        variant={viewMode === 'map' ? 'default' : 'ghost'}
+                        className={`px-3 py-1 rounded-md ${viewMode === 'map' ? 'bg-white shadow text-neutral-800' : 'text-neutral-600'}`}
+                        onClick={() => setViewMode('map')}
+                      >
+                        <i className="fas fa-map-marker-alt mr-1"></i> Map
+                      </Button>
+                    </div>
                   </div>
 
-                  {/* View Toggle */}
-                  <div className="bg-neutral-100 rounded-lg p-1 flex">
-                    <Button
-                      variant={viewMode === 'list' ? 'default' : 'ghost'}
-                      className={`px-3 py-1 rounded-md ${viewMode === 'list' ? 'bg-white shadow text-neutral-800' : 'text-neutral-600'}`}
-                      onClick={() => setViewMode('list')}
-                    >
-                      <i className="fas fa-list mr-1"></i> List
-                    </Button>
-                    <Button
-                      variant={viewMode === 'map' ? 'default' : 'ghost'}
-                      className={`px-3 py-1 rounded-md ${viewMode === 'map' ? 'bg-white shadow text-neutral-800' : 'text-neutral-600'}`}
-                      onClick={() => setViewMode('map')}
-                    >
-                      <i className="fas fa-map-marker-alt mr-1"></i> Map
-                    </Button>
+                  {/* Search Summary */}
+                  <div className="mt-2">
+                    <p className="text-sm text-neutral-600">
+                      <span className="font-medium">Your search results for {searchQuery}</span>
+                    </p>
                   </div>
-                </div>
-
-                {/* Search Summary */}
-                <div className="mt-2">
-                  <p className="text-sm text-neutral-600">
-                    <span className="font-medium">Your search results for {searchQuery}</span>
-                  </p>
                 </div>
               </div>
-            </div>
 
-            {/* View Content */}
-            <div className="flex-grow" style={{minHeight: '300px'}}>
-              <AnimatePresence mode="wait">
-                {viewMode === 'list' ? (
-                  <ListView
-                    key="list-view"
-                    hotels={hotelData}
-                    onSelectHotel={handleSelectHotel}
-                    searchQuery={searchQuery}
-                  />
-                ) : (
-                  <MapView
-                    key="map-view"
-                    hotels={hotelData}
-                    onSelectHotel={handleSelectHotel}
-                  />
-                )}
-              </AnimatePresence>
+              {/* View Content */}
+              <div className="flex-grow" style={{minHeight: '300px'}}>
+                <AnimatePresence mode="wait">
+                  {viewMode === 'list' ? (
+                    <ListView
+                      key="list-view"
+                      hotels={hotels}
+                      onSelectHotel={handleSelectHotel}
+                      searchQuery={searchQuery}
+                    />
+                  ) : (
+                    <MapView
+                      key="map-view"
+                      hotels={hotels}
+                      onSelectHotel={handleSelectHotel}
+                    />
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </main>
     </motion.div>
   );
