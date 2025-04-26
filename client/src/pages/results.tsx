@@ -40,6 +40,7 @@ export default function Results() {
   };
 
   const handleHotelsFetched = (fetchedHotels: Hotel[]) => {
+    console.log('fetchedHotels', fetchedHotels);
     setHotels(fetchedHotels);
   };
 

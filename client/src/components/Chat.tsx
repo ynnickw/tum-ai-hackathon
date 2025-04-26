@@ -9,6 +9,45 @@ import { Hotel } from '@/lib/types';
 interface ChatProps {
   onHotelsFetched: (hotels: Hotel[]) => void;
 }
+function mapHotelsData(rawHotels: Record<string, any>): Hotel[] {
+  return Object.entries(rawHotels).map(([name, raw]) => {
+    const amenityKeys = Object.keys(raw).filter(key => raw[key] === 1);
+    const amenities = amenityKeys.map(key => key.replace(/_/g, ' '));
+
+    return {
+      id: raw.clusterid,
+      name,
+      location: {
+        area: raw.locationname || "Unknown",
+        distanceToCenter: `${raw.distancetocity ?? 'N/A'} km`,
+        address: "Address not provided", // Placeholder
+        nearbyAttractions: [
+          raw.distancetobeach ? `Beach (${raw.distancetobeach} km)` : '',
+          raw.distancetocity ? `City center (${raw.distancetocity} km)` : ''
+        ].filter(Boolean),
+        coordinates: {
+          lat: 0,
+          lng: 0
+        }
+      },
+      price: raw.price,
+      rating: raw.rating,
+      reviewCount: raw.ratingscount,
+      description: `A ${raw.starcategory}-star all-inclusive aparthotel in ${raw.locationname}, ${raw.distancetocity} km from the center and ${raw.distancetobeach} km from the beach.`,
+      shortDescription: `${raw.starcategory}-star all-inclusive stay near beach and city center.`,
+      amenities,
+      images: {
+        main: "https://example.com/image.jpg", // Placeholder
+        gallery: [
+          "https://example.com/gallery1.jpg",
+          "https://example.com/gallery2.jpg"
+        ]
+      },
+      matchPercentage: raw.ltr_score ? Math.round(raw.ltr_score * 10000) / 100 : undefined
+    };
+  });
+}
+
 
 export function Chat({ onHotelsFetched }: ChatProps) {
   // Chat state
@@ -30,6 +69,7 @@ export function Chat({ onHotelsFetched }: ChatProps) {
   const fetchHotels = async () => {
     setIsLoading(true);
     try {
+      console.log('Fetching hotels with query:', inputValue, 'and city:', destination);
       const response = await fetch(`http://localhost:8000/hotels?query=${encodeURIComponent(inputValue)}&city=${encodeURIComponent(destination || '')}`, {
         method: 'GET',
         headers: {
@@ -39,6 +79,7 @@ export function Chat({ onHotelsFetched }: ChatProps) {
   
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('Error response:', errorData);
         if (response.status === 400 && errorData.detail === "Invalid request.") {
           setMessages(prev => [...prev, {
             sender: 'ai',
@@ -50,7 +91,10 @@ export function Chat({ onHotelsFetched }: ChatProps) {
       }
   
       const data = await response.json();
-      onHotelsFetched(data.hotels || []);
+      console.log('Received data from API:', data);
+      let a = mapHotelsData(data);
+      console.log('Mapped hotel data:', a);
+      onHotelsFetched(a || []);
   
       setMessages(prev => [...prev, {
         sender: 'ai',
