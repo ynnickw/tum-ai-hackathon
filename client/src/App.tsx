@@ -8,6 +8,7 @@ import Home from "@/pages/home";
 import Results from "@/pages/results";
 import HotelDetail from "@/pages/hotel-detail";
 import { AnimatePresence } from "framer-motion";
+import VoiceAgent from "@/components/voice_agent/Copied_App";
 
 function Router() {
   return (
@@ -27,7 +28,14 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Router />
+        <div className="flex h-screen overflow-hidden">
+          <div className="flex-grow overflow-auto">
+            <Router />
+          </div>
+          <div className="w-[380px] shrink-0 h-screen">
+            <VoiceAgent />
+          </div>
+        </div>
       </TooltipProvider>
     </QueryClientProvider>
   );
