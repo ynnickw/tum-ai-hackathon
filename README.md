@@ -8,13 +8,10 @@ A full-stack hotel recommendation system that leverages a React Native frontend 
 
 - [Challenge Summary](#challenge-summary)
 - [Our Solution](#our-solution)
-- [Project Structure](#project-structure)
 - [Prerequisites](#prerequisites)
 - [Setup Instructions](#setup-instructions)
   - [Backend](#backend)
   - [Frontend](#frontend)
-- [Development](#development)
-- [License](#license)
 
 ---
 
