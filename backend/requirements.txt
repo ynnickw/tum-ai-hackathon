@@ -1,0 +1,45 @@
+
+# Other dependencies
+attrs==25.3.0
+# Development dependencies
+black==24.1.1
+cffi==1.17.1
+cfgv==3.4.0
+charset-normalizer==3.4.1
+click==8.1.8
+distlib==0.3.9
+distro==1.9.0
+
+fastapi==0.115.12
+fastparquet==2024.11.0
+filelock==3.18.0
+fsspec==2025.3.0
+identify==2.6.10
+isort==5.13.2
+MarkupSafe==3.0.2
+matplotlib==3.10.1
+mypy_extensions==1.1.0
+numba==0.61.0
+numpy==2.1.3
+openai==1.76.0
+packaging==24.2
+pandas==2.2.3
+pathspec==0.12.1
+pillow==11.1.0
+pip==25.0.1
+platformdirs==4.3.6
+pre-commit==4.2.0
+protobuf==6.30.1
+pyarrow==19.0.1
+python-dateutil==2.9.0.post0
+
+# Project dependencies
+python-dotenv==1.0.1
+pytz==2025.2
+PyYAML==6.0.2
+scipy==1.15.2
+setuptools==77.0.1
+six==1.17.0
+typing_extensions==4.12.2
+uvicorn==0.30.1
+virtualenv==20.29.3

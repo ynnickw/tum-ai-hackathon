@@ -1,0 +1,434 @@
+column_name,category
+searchid,metadata
+hotel_name,metadata
+clusterchain,metadata
+clusterbrand,metadata
+clustersubbrand,metadata
+bookingshare,booking_context
+pricepernight,price_rating
+rating,price_rating
+ratingscount,price_rating
+starcategory,metadata
+mealtype,metadata
+cancelable,metadata
+distancetoreference,distances
+distancetocity,distances
+distancetounderground,distances
+distancetobeach,distances
+distancetobathing,distances
+distancetoairport,distances
+distancetotrainstation,distances
+roomcategory,metadata
+roomcategoryid,metadata
+roomconfiguration,metadata
+startson,booking_context
+endson,booking_context
+requesttimestamp,booking_context
+numrooms,booking_context
+numadults,booking_context
+numchildren,booking_context
+nights,booking_context
+duration,booking_context
+daystostart,booking_context
+daystostart_bucket,booking_context
+locationtype,metadata
+locationname,metadata
+locationid,metadata
+clusterid,metadata
+price,price_rating
+popular_location_rank,price_rating
+deviceoutput,metadata
+ltr_score,metadata
+24-Stunden-Rezeption,safety_health
+24-Stunden-Sicherheitspersonal,safety_health
+Abendessen,food_beverage
+Abenteuer,sport_recreation
+Adapter/Ladegeräte,room_amenities
+Aerobic,sport_recreation
+American Express,payment_methods
+Animation (Erwachsene),entertainment
+Aparthotel,style_theme
+Arabisch,languages
+Arbeitsbereich für Arbeit mit Laptop geeignet,business_events
+Assistenztiere sind von Gebühren/ Restriktionen ausgeschlossen,pets
+Aufdeckservice,room_amenities
+Aufzug,other_amenity
+Ausflugsinformationen,other_amenity
+Ausgewiesene Raucherbereiche,other_amenity
+Autovermietung,transport_parking
+Außenpool,wellness_spa
+Außenpool (saisonal),wellness_spa
+Baby-/ Kinderbetreuung,family_kids
+Babybadewanne,room_amenities
+Backofen,other_amenity
+Bademantel,room_amenities
+Badewanne oder Dusche,room_amenities
+Balkon,room_amenities
+Bankettsaal,other_amenity
+Bar,food_beverage
+Barrierefrei,food_beverage
+Barrierefreie Dusche,food_beverage
+Beheizter Pool,wellness_spa
+Behindertenfreundlich,accessibility
+Behindertengerechte Parkplätze,accessibility
+Besichtigungstouren,other_amenity
+Bestätigte Corona-Schutzmaßnahmen,safety_health
+Betreute Kinderaktivitäten,family_kids
+Bettwäsche,room_amenities
+Bibliothek,other_amenity
+Bidet,other_amenity
+Billard,sport_recreation
+Bosnisch,languages
+Boutique-/Designhotel,style_theme
+Boutiquen/Läden,style_theme
+Brettspiele/Puzzle,family_kids
+Budgetorientiert,pets
+Buggys,family_kids
+Businesscenter,business_events
+Businesshotel,business_events
+Bücher,other_amenity
+Bügeleinrichtungen,other_amenity
+Bügelservice,other_amenity
+Café,food_beverage
+Cash (Bargeld),food_beverage
+Computerarbeitsplatz,business_events
+Concierge Service,other_amenity
+Dachterrasse,other_amenity
+Dampfbad,room_amenities
+Darts,sport_recreation
+Daunenkissen,other_amenity
+Deckenventilator,room_amenities
+Desinfektion von Geschirr,safety_health
+Deutsch,languages
+Diners Club,payment_methods
+Discover,payment_methods
+Dusch-Badewannen Kombination,room_amenities
+Dusche,other_amenity
+Duschhocker,other_amenity
+Eigenes Badezimmer,room_amenities
+Einzeln verpackte Essenspakete verfügbar,food_beverage
+Englisch,languages
+Espressomaschine,other_amenity
+Essbereich,other_amenity
+Essen kann auf das Zimmer geliefert werden,room_amenities
+Esstisch,other_amenity
+Eurocard/Mastercard,payment_methods
+Express-Check-in/-out,other_amenity
+Fahrradstellplatz,sport_recreation
+Fahrradtouren,sport_recreation
+Fahrradvermietung,sport_recreation
+Familie,family_kids
+Familienzimmer vorhanden,room_amenities
+Fax/Kopierer,business_events
+Feuerlöscher,safety_health
+Filme,other_amenity
+Fitness,sport_recreation
+Fitnesseinrichtung,sport_recreation
+Flachbild-TV,room_amenities
+Flughafenshuttle,transport_parking
+Französisch,languages
+Friseur-/Schönheitssalon,other_amenity
+Frühstück,food_beverage
+Frühstücksbuffet,food_beverage
+Futternapf,other_amenity
+Fußbad,room_amenities
+Fußmassage,wellness_spa
+Föhn,room_amenities
+Ganzkörpermassage,wellness_spa
+Ganzkörperpackung,other_amenity
+Garten,other_amenity
+Gast kann Zimmerreinigung abmelden,room_amenities
+Gasthaus,style_theme
+Gefrierschrank,room_amenities
+Geldautomat vor Ort,other_amenity
+Geldwechsel,other_amenity
+Gemeinschaftsbad,room_amenities
+Gemeinschaftsküche,food_beverage
+Gemeinschaftslounge/TV-Bereich,room_amenities
+Gepäckaufbewahrung,other_amenity
+Gesamte Wohneinheit im Erdgeschoß,other_amenity
+Gesamte Wohneinheit ist rollstuhlgerecht,accessibility
+Geschenkeladen/ Zeitungsstand,other_amenity
+Geschirr für Kinder,family_kids
+Gesicherte Fahrradstellplätze,sport_recreation
+Gesicherte Parkplätze,transport_parking
+Gesichtsbehandlungen,other_amenity
+Getränke/Snackautomat,food_beverage
+Golf/Sport,sport_recreation
+Golfplatz (max. 3 km entfernt),sport_recreation
+Golfunterricht,sport_recreation
+Grillmöglichkeiten,food_beverage
+Gäste werden auf Gesundheit kontrolliert,other_amenity
+Haarentfernung mit Wachs,other_amenity
+Halboffenes Badezimmer,room_amenities
+Handmassage,wellness_spa
+Handschuhe für Gäste verfügbar,food_beverage
+Handtücher,other_amenity
+Hausschuhe,other_amenity
+Haustiere erlaubt,pets
+Haustierfreundliches Hotel,pets
+Heizung,room_amenities
+Heizung im Zimmer steuerbar,room_amenities
+Heiße Quelle,other_amenity
+Hochzeitsservice,other_amenity
+Hotel,other_amenity
+Hundeauslaufplatz,pets
+Hydromassage Dusche,wellness_spa
+Hypoallergene Bettware erhältlich,room_amenities
+Höheres WC,accessibility
+Hörhilfen,accessibility
+Individuell dekoriert je Zimmer,room_amenities
+Individuelle Möbel je Zimmer,room_amenities
+Infinity-Pool,wellness_spa
+Innenpool,wellness_spa
+Innenpool (saisonal),wellness_spa
+Investitionen in lokale Nachhaltigkeitsprojekte,sustainability
+Italienisch,languages
+JCB,payment_methods
+Japanisch,languages
+Kabel TV,room_amenities
+Kaffee/Tee in Gemeinschaftsräumen,other_amenity
+Kanusport,sport_recreation
+Kapelle/Schrein,other_amenity
+Karaoke,entertainment
+Keine Corona-Schutzmaßnahmen,safety_health
+Keine oder eingeschränkte Verwendung von Plastik-Artikeln (z.B. Strohhalme,other_amenity
+Besteck oder Einweg-Artikel),other_amenity
+Kinder-/Babybetten auf Anfrage,room_amenities
+Kinderbecken,family_kids
+Kinderbetreuung im Zimmer,room_amenities
+Kinderbücher,family_kids
+Kinderclub,family_kids
+Kinderfreundliches Buffet,food_beverage
+Kinderhochstuhl,family_kids
+Kindermahlzeiten,family_kids
+Kinderspielplatz,family_kids
+Kissenauswahl,other_amenity
+Kitchenette,other_amenity
+Klimaanlage im Zimmer,room_amenities
+Klimaanlage im Zimmer steuerbar,room_amenities
+Klimaanlage in allen Zimmern,room_amenities
+Kochplatten/ Herd,other_amenity
+Kochutensilien,other_amenity
+Konferenz- und Veranstaltungsräume,business_events
+Kontaktlose Bezahlung,safety_health
+Kontaktloser Check-In/out,safety_health
+Kontinentales Frühstück,food_beverage
+Kopfmassage,wellness_spa
+Kostenlos parken vor Ort,transport_parking
+Kostenloses Handdesinfektionsmittel,safety_health
+Kroatisch,languages
+Kunstgalerie im Hotel,other_amenity
+Körperpeeling,other_amenity
+Küche,food_beverage
+Kühl-Gefrierkombination,other_amenity
+Kühlschrank,room_amenities
+Kühlschrank im Gemeinschaftsbereich,room_amenities
+LAN,languages
+LGBT-Freundlich,other_amenity
+Ladestation für Elektro-Autos,transport_parking
+Langzeitparken,transport_parking
+Lebensmittel aus biologischem Anbau,sustainability
+Lebensmittel aus der Region,sustainability
+Live-Musik/Performance,entertainment
+Lokale Karten,other_amenity
+Lunchpakete,other_amenity
+Luxushotel,style_theme
+Maestro,payment_methods
+Maniküre,other_amenity
+Masken für Gäste verfügbar,food_beverage
+Maskenpflicht,safety_health
+Massage,wellness_spa
+Massage im Zimmer,room_amenities
+Massagestuhl,wellness_spa
+Maßnahmen zur Reduzierung des Energieverbrauchs,sustainability
+Mehrsprachiges Personal,other_amenity
+Mikrowelle,room_amenities
+Mikrowelle im Gemeinschaftsbereich,room_amenities
+Mini-Kühlschrank,room_amenities
+Minibar,food_beverage
+Minigolf,sport_recreation
+Minimarkt vor Ort,other_amenity
+Mitarbeiter folgen Regeln des regionalen Standards,other_amenity
+Mitarbeiter tragen Schutzkleidung,safety_health
+Motto-Dinnerabende,entertainment
+Nachhaltige Unterkunft,sustainability
+Nachtclub/DJ,entertainment
+Nackenmassage,wellness_spa
+Nicht rollstuhlgerecht,accessibility
+Nichtraucherunterkunft,other_amenity
+Nichtraucherzimmer,room_amenities
+Nichtschwimmerbereich,other_amenity
+Niederländisch,languages
+Niedriges Waschbecken,room_amenities
+Niedriges Waschbecken im Bad,room_amenities
+Notrufleine im Bad,room_amenities
+Nur Assistenztiere sind erlaubt,pets
+Nur Hunde sind erlaubt,pets
+Nur Hunde und Katzen sind erlaubt,pets
+Nur für Erwachsene,other_amenity
+Obere Stockwerke mit Fahrstuhl erreichbar,food_beverage
+Outdoorspielgeräte für Kinder,family_kids
+Paarmassage,wellness_spa
+Panoramahotel,style_theme
+Parken vor Ort,transport_parking
+Parkhaus/Tiefgarage,transport_parking
+Parkplatz außerhalb des Hotelgeländes,transport_parking
+Parkservice,transport_parking
+Pediküre,other_amenity
+Pension,style_theme
+Pflegeprodukte,other_amenity
+Picknickbereich,food_beverage
+Pillow-Top Matratze,other_amenity
+Polnisch,languages
+Pool,wellness_spa
+Pool Cabana,wellness_spa
+Pool mit Rampe,wellness_spa
+Pool-/Strandtücher,wellness_spa
+Poolbar,food_beverage
+Portier/Hotelpage,pets
+Portugiesisch,languages
+Premium Bettwaren,room_amenities
+Privater Check-in/-out,other_amenity
+Privater Strand,other_amenity
+Privates Abendessen,food_beverage
+Privates Tauchbecken,other_amenity
+Privatstrand in der Nähe,other_amenity
+Programm zur Reduzierung von Lebensmittelabfällen,sustainability
+Pub Crawl,entertainment
+Radfahren,sport_recreation
+Raucher und Nichtraucherzimmer,room_amenities
+Raucherzimmer,room_amenities
+Rauchmelder,other_amenity
+Recycling,sustainability
+Regendusche,other_amenity
+Reinigung mit Desinfektionsmittel,safety_health
+Reinigungsmittel gegen Coronaviren,safety_health
+Reiseführer oder Empfehlungen,other_amenity
+Reiten,sport_recreation
+Resort,style_theme
+Restaurant,food_beverage
+Rezeption,other_amenity
+Rollstuhlgerecht,accessibility
+Rollstühle verfügbar,food_beverage
+Romantik/Flitterwochen,style_theme
+Rumänisch,languages
+Russisch,languages
+Räumliche Trennung von Gästen und Mitarbeitern in Hauptkontaktzonen,other_amenity
+Rückenmassage,wellness_spa
+Safe an der Rezeption,room_amenities
+Safe im Zimmer,room_amenities
+Safe in Laptopgröße,room_amenities
+Satelliten-TV,room_amenities
+Sauna,wellness_spa
+Schallisolierung,other_amenity
+Schlafsofa,room_amenities
+Schlafzimmer,room_amenities
+Schließfächer,other_amenity
+Schrank,room_amenities
+Schreibtisch,room_amenities
+Schutzkleidung für Gäste verfügbar,food_beverage
+Schwimmbad,room_amenities
+Seife,other_amenity
+Serbisch,languages
+Shampoo,other_amenity
+Shopping,other_amenity
+Shuttle in die Umgebung,transport_parking
+Shuttle zum Bahnhof,transport_parking
+Shuttle zur Fähre,transport_parking
+Shuttleservice,transport_parking
+Sicherheitsalarm,safety_health
+Sitzecke,other_amenity
+Slowakisch,languages
+Smart TV,room_amenities
+Snackbar,food_beverage
+Social Distancing Maßnahmen,other_amenity
+Solarium,other_amenity
+Sonnenschirme,other_amenity
+Sonnenstühle/-liegen,other_amenity
+Spa & Wellnesscenter,wellness_spa
+Spa-Anwendungen,wellness_spa
+Spa/Entspannung,wellness_spa
+Spanisch,wellness_spa
+Speisen für spezielle Ernährungsbedürfnisse,other_amenity
+Spielbereich,family_kids
+Spiele für Kinder,family_kids
+Spielhalle,family_kids
+Spielzeug,family_kids
+Spülmaschine,other_amenity
+Strand,other_amenity
+Strand Cabana,other_amenity
+Strandbar,food_beverage
+Strandhotel,style_theme
+Streaming-Dienste (z.B. Netflix),room_amenities
+Streaming-Service,room_amenities
+Strom aus erneuerbaren Energien,food_beverage
+Städtereise,other_amenity
+TV,room_amenities
+Tagesbett,room_amenities
+Tauchbecken,other_amenity
+Tee-/Kaffeezubereiter,other_amenity
+Teile des CO²-Ausstoßes werden durch Zertifikate ausgeglichen,sustainability
+Telefon,other_amenity
+Tennisausrüstung,sport_recreation
+Tennisplatz,sport_recreation
+Terrasse,other_amenity
+Thailändisch,languages
+Ticketservice,other_amenity
+Tierkörbchen,pets
+Tischtennis,sport_recreation
+Toilettenpapier,other_amenity
+Touren/Kurse über die örtliche Kultur,other_amenity
+Tschechisch,languages
+Ungarisch,languages
+Unterkunft wird von professionellem Reinigungsservice gereinigt,other_amenity
+Vegan,other_amenity
+Vegetarisch,other_amenity
+Ventilator,room_amenities
+Veranda/Terrasse,other_amenity
+Verdunkelungsvorhänge,other_amenity
+Versiegelung des Raums nach Reinigung,other_amenity
+Videoüberwachung der Außenbereiche der Unterkunft,safety_health
+Videoüberwachung in Gemeinschaftsräumen,safety_health
+Visa,payment_methods
+Visuelle Hilfe: Braille,accessibility
+Visuelle Hilfe: fühlbare Zeichen,food_beverage
+Vollwertiges Frühstück,food_beverage
+WC mit Haltegriffen,accessibility
+WLAN,languages
+Wandern,sport_recreation
+Waschsalon/Wäscheservice,room_amenities
+Wassereinsparende Badezimmer-Einrichtungen,room_amenities
+Wasserkocher,sustainability
+Wasserpark,sustainability
+Wasserrutsche,sustainability
+Wasserspielzeug für Kinder,family_kids
+Wassersportmöglichkeiten vor Ort,sport_recreation
+Wellness,wellness_spa
+Wellnessangebote,wellness_spa
+Wellnessbehandlungsraum/-räume,wellness_spa
+Wellnesshotel,wellness_spa
+Wellnesslounge/Ruhebereich,wellness_spa
+Whirlpool,wellness_spa
+Whirlpool-Badewanne,room_amenities
+Whirlpool/Jacuzzi,wellness_spa
+Wickeltisch,other_amenity
+Wohnzimmer,room_amenities
+Wäsche wird nach regionalem Standard gewaschen,room_amenities
+Yoga,other_amenity
+Zahnbürste,other_amenity
+Zeitlicher Abstand zwischen Aufenthalten von Gästen eingeführt,other_amenity
+Zeitung,other_amenity
+Zeitungen in der Lobby,other_amenity
+Zimmer mit Verbindungstür,room_amenities
+Zimmerreinigung,room_amenities
+Zimmerreinigung (eingeschränkt),room_amenities
+Zimmerservice,room_amenities
+Zimmerservice (eingeschränkt),room_amenities
+Zugang über außengelegene Gänge,accessibility
+Zustellbett auf Anfrage,room_amenities
+Zustellbetten,room_amenities
+direkter Strandzugang (privater Strand),accessibility
+iPod-Dockingstation,room_amenities
+ländlich,other_amenity
+Übergroße Badewanne,room_amenities
